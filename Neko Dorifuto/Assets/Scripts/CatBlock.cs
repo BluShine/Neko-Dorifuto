@@ -9,14 +9,15 @@ public class CatBlock : MonoBehaviour {
     public Vector3 target;
     Vector3 velocity;
     float hoistTimer;
+    float targetDelay = .2f;
     Rigidbody body;
     bool dropped = false;
 
 	// Use this for initialization
 	void Start () {
         body = GetComponent<Rigidbody>();
-        transform.rotation = Quaternion.Euler(Random.Range(-10, 10), Random.Range(0, 360), Random.Range(-10, 10));
-        body.angularVelocity = new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), Random.Range(-1, 1)) * 5;
+        transform.rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
+        body.angularVelocity = new Vector3(Random.Range(-1, 1), Random.Range(-2, 2), Random.Range(-1, 1)) * 3;
         hoistTimer = properties.hoistTime;
         body.velocity = Vector3.up * properties.hoistVelocity;
 	}
@@ -48,5 +49,19 @@ public class CatBlock : MonoBehaviour {
                 body.useGravity = true;
             }
         }
+
+        if(hoistTimer <= 0)
+        {
+            targetDelay -= Time.fixedDeltaTime;
+        }
+    }
+
+    public bool readyToTarget()
+    {
+        if(targetDelay <= 0)
+        {
+            return true;
+        }
+        return false;
     }
 }

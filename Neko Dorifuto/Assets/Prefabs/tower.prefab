@@ -38,7 +38,8 @@ GameObject:
   - component: {fileID: 4030628403849260}
   - component: {fileID: 33239959046993280}
   - component: {fileID: 23260190714955470}
-  - component: {fileID: 65574613767335728}
+  - component: {fileID: 114235008767730402}
+  - component: {fileID: 135034896445399282}
   m_Layer: 0
   m_Name: Darkness
   m_TagString: Untagged
@@ -52,7 +53,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1466354688143434}
-  m_LocalRotation: {x: -6.4262822e-12, y: -1, z: 0.0000018318508, w: 0.0000035952676}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1.8, y: 1.8, z: 1.8}
   m_Children: []
@@ -65,7 +66,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1054231575800490}
-  m_LocalRotation: {x: 6.4262822e-12, y: 1, z: -0.0000018318508, w: 0.0000035952676}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -6, y: -3, z: 14}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -157,15 +158,29 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1054231575800490}
   m_Mesh: {fileID: 4300000, guid: c909b9be53d74a240849a71b1e4379d9, type: 3}
---- !u!65 &65574613767335728
-BoxCollider:
+--- !u!114 &114235008767730402
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1466354688143434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b3a518f64b6b294da126a619146e394, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectile: {fileID: 1010573850875148, guid: 9a304a8ee91a9a14da0c7222999ca86b, type: 2}
+  fireRate: 4
+  projectileVelocity: 25
+--- !u!135 &135034896445399282
+SphereCollider:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1466354688143434}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 5
+  m_Center: {x: 0.00000023841858, y: 1.0301866e-17, z: 0}
