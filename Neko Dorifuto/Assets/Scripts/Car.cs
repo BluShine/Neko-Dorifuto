@@ -53,8 +53,8 @@ public class Car : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        bool forwardInput = Input.GetButton("Jump") || Input.GetAxis("Vertical") < 0;
-        bool backwardInput = !forwardInput && (Input.GetButton("Fire1") || Input.GetAxis("Vertical") > 0);
+        bool forwardInput = Input.GetButton("Jump") || Input.GetAxis("Vertical") > 0;
+        bool backwardInput = !forwardInput && (Input.GetButton("Fire1") || Input.GetAxis("Vertical") < 0);
 
         bool onGround = false;
         Vector3 relativeVel = transform.InverseTransformDirection(body.velocity);

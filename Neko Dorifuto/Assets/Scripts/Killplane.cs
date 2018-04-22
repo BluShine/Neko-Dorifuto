@@ -14,12 +14,24 @@ public class Killplane : MonoBehaviour {
 		
 	}
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        Car car = collision.gameObject.GetComponent<Car>();
+        if (car != null)
+        {
+            car.Respawn();
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         Car car = other.gameObject.GetComponent<Car>();
         if(car != null)
         {
             car.Respawn();
+        } else
+        {
+            Destroy(other.gameObject);
         }
     }
 }

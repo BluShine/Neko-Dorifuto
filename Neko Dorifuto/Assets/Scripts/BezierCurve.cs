@@ -191,6 +191,22 @@ public class BezierCurve : MonoBehaviour {
         Vector3 p3 = start + segment.end;
         return Mathf.Pow(1 - t, 3) * p0 + 3 * Mathf.Pow(1 - t, 2) * t * p1 + 3 * (1 - t) * Mathf.Pow(t, 2) * p2 + Mathf.Pow(t, 3) * p3; 
     }
+
+    private Vector3 getStartPoint(int segments)
+    {
+        Vector3 startPoint = transform.position;
+        for(int i = 0; i < segments; i++)
+        {
+            startPoint += line[i].end;
+        }
+        return startPoint;
+    }
+    public Vector3 GetRandomPoint()
+    {
+        float t = Random.value;
+        int seg = Random.Range(0, line.Count);
+        return getPoint(t, getStartPoint(seg), line[seg]);
+    }
 }
 
 [System.Serializable]
