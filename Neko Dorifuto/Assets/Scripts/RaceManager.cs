@@ -30,7 +30,7 @@ public class RaceManager : MonoBehaviour {
         if(currentCheckpoint == 0)
         {
             currentLaps--;
-            if(currentLaps == 0 && !lose)
+            if(currentLaps < 0 && !lose)
             {
                 win = true;
             }

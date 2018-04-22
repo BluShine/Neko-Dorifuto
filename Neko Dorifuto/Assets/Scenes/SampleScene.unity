@@ -1893,12 +1893,12 @@ MonoBehaviour:
   startingTime: 30
   checkpointTime: 3
   checkpoints:
+  - {fileID: 786112272}
   - {fileID: 900731107}
   - {fileID: 340695944}
   - {fileID: 719755947}
   - {fileID: 1974004679}
   - {fileID: 1894577919}
-  - {fileID: 786112272}
   laps: 3
   lapText: {fileID: 738738072}
   timeText: {fileID: 960618835}
