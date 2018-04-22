@@ -32,10 +32,13 @@ public class Car : MonoBehaviour {
 
     private bool isColliding = false;
 
+    RaceManager manager;
+
 	// Use this for initialization
 	void Start () {
         body = GetComponent<Rigidbody>();
         hoverPID = new HoverPIDController(hoverPIDProperties);
+        manager = FindObjectOfType<RaceManager>();
 	}
 	
 	// Update is called once per frame
@@ -50,6 +53,9 @@ public class Car : MonoBehaviour {
 
     private void FixedUpdate()
     {
+        bool forwardInput = Input.GetButton("Jump") || Input.GetAxis("Vertical") < 0;
+        bool backwardInput = !forwardInput && (Input.GetButton("Fire1") || Input.GetAxis("Vertical") > 0);
+
         bool onGround = false;
         Vector3 relativeVel = transform.InverseTransformDirection(body.velocity);
         //suspension
@@ -102,7 +108,7 @@ public class Car : MonoBehaviour {
         if (onGround)
         {
             float accelOutput = accelForce * accelCurve.Evaluate(Mathf.Abs(relativeVel.z) / topSpeed);
-            if (Input.GetButton("Jump") && relativeVel.z < topSpeed)
+            if (forwardInput && relativeVel.z < topSpeed)
             {
                 //if we are close to top speed, set velocity to top speed.
                 if (accelOutput * Time.fixedDeltaTime + relativeVel.z > topSpeed)
@@ -114,7 +120,7 @@ public class Car : MonoBehaviour {
                     body.AddForce(transform.forward * accelOutput, ForceMode.Acceleration);
                 }
             }
-            else if (Input.GetButton("Fire1") && relativeVel.z > -topSpeed * .5f)
+            else if (backwardInput && relativeVel.z > -topSpeed * .5f)
             {
                 //if we are close to top speed, set velocity to top speed.
                 if (-accelOutput * Time.fixedDeltaTime + relativeVel.z < -topSpeed)
@@ -190,7 +196,7 @@ public class Car : MonoBehaviour {
                 body.AddRelativeForce(Vector3.forward * energyLoss * -Mathf.Sign(forwardVelocity), ForceMode.Acceleration);
             }
             //braking
-            if (!Input.GetButton("Jump") && !Input.GetButton("Fire1"))
+            if (!backwardInput && !forwardInput)
             {
                 Vector2 groundVel = new Vector2(relativeVel.x, relativeVel.z);
                if(groundVel.magnitude < brakeForce * Time.fixedDeltaTime)
@@ -206,5 +212,14 @@ public class Car : MonoBehaviour {
         #endregion
 
         isColliding = false;
+    }
+
+    public void Respawn()
+    {
+        body.velocity = Vector3.zero;
+        body.angularVelocity = Vector3.zero;
+        Transform lastCheck = manager.GetLastCheckpoint();
+        transform.position = lastCheck.transform.position + lastCheck.transform.up * .5f;
+        transform.rotation = lastCheck.transform.rotation;
     }
 }

@@ -86,4 +86,9 @@ public class RaceManager : MonoBehaviour {
             loseText.enabled = true;
         }
     }
+
+    public Transform GetLastCheckpoint()
+    {
+        return checkpoints[(currentCheckpoint - 1 + checkpoints.Count) % checkpoints.Count].transform;
+    }
 }
