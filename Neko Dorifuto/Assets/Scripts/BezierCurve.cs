@@ -18,12 +18,13 @@ public class BezierCurve : MonoBehaviour {
 		
 	}
 
-    public Mesh extrudeMesh(List<Vector3> sourceVerts, List<int> capTris)
+    public Mesh extrudeMesh(List<Vector3> sourceVerts, List<int> capTris, List<float> crossUVs, float uvLengthScale)
     {
         Mesh mesh = new Mesh();
         List<Vector3> verts = new List<Vector3>();
         List<Vector2> uvs = new List<Vector2>();
         List<int> tris = new List<int>();
+        float uvExtrudeLength = 0;
         //generate curve
         Vector3 lastPos = Vector3.zero;
         Vector3 lastUp = startUp;
@@ -60,25 +61,29 @@ public class BezierCurve : MonoBehaviour {
                     nextLeft = Vector3.Cross(forward.normalized, nextUp);
                 }
 
+                float uvNextExtruded = uvExtrudeLength + Vector3.Distance(p1, p2) / uvLengthScale;
+                float lastUvs = 0;
                 for(int k = 0; k < sourceVerts.Count; k++)
                 {
-                    Vector3 vert1 = sourceVerts[k];
-                    Vector3 vert2 = sourceVerts[(k + 1) % sourceVerts.Count];
+                    Vector3 vert1 = Vector3.Scale(new Vector3(-1, 1, 1), sourceVerts[k]);
+                    Vector3 vert2 = Vector3.Scale(new Vector3(-1, 1, 1), sourceVerts[(k + 1) % sourceVerts.Count]);
                     verts.Add(p1 + vert1.y * lastNormUp + vert1.x * lastNormLeft);
                     verts.Add(p2 + vert1.y * nextUp + vert1.x * nextLeft);
                     verts.Add(p1 + vert2.y * lastNormUp + vert2.x * lastNormLeft);
                     verts.Add(p2 + vert2.y * nextUp + vert2.x * nextLeft);
-                    uvs.Add(new Vector2(k / (float)sourceVerts.Count, t));
-                    uvs.Add(new Vector2(k / (float)sourceVerts.Count, t2));
-                    uvs.Add(new Vector2((k + 1) / (float)sourceVerts.Count, t));
-                    uvs.Add(new Vector2((k + 1) / (float)sourceVerts.Count, t2));
-                    tris.Add(verts.Count - 4);
-                    tris.Add(verts.Count - 2);
-                    tris.Add(verts.Count - 3);
-                    tris.Add(verts.Count - 3);
-                    tris.Add(verts.Count - 2);
+                    uvs.Add(new Vector2(lastUvs, uvExtrudeLength));
+                    uvs.Add(new Vector2(lastUvs, uvNextExtruded));
+                    uvs.Add(new Vector2(crossUVs[k], uvExtrudeLength));
+                    uvs.Add(new Vector2(crossUVs[k], uvNextExtruded));
+                    lastUvs = crossUVs[k];
                     tris.Add(verts.Count - 1);
+                    tris.Add(verts.Count - 2);
+                    tris.Add(verts.Count - 3);
+                    tris.Add(verts.Count - 3);
+                    tris.Add(verts.Count - 2);
+                    tris.Add(verts.Count - 4);
                 }
+                uvExtrudeLength = uvNextExtruded;
 
                 lastNormUp = nextUp;
                 lastNormLeft = nextLeft;
@@ -86,12 +91,13 @@ public class BezierCurve : MonoBehaviour {
             lastPos = lastPos + line[j].end;
             lastUp = line[j].up;
         }
+        //TODO: Improve cap UVs
         //generate start cap
         for(int i = 0; i < sourceVerts.Count; i++)
         {
             Vector3 v = sourceVerts[i];
             verts.Add(v.y * startNormUp + v.x * startNormleft);
-            uvs.Add(new Vector2(v.x, v.y));
+            uvs.Add(new Vector2(-v.x, v.y));
         }
         for(int i = 0; i < capTris.Count; i++)
         {
@@ -152,9 +158,7 @@ public class BezierCurve : MonoBehaviour {
                 Gizmos.color = Color.green;
                 Gizmos.DrawLine(p1, p1 + norm);
                 Gizmos.color = Color.red;
-                Gizmos.DrawLine(p1, p1 - norm);
-                Gizmos.color = Color.blue;
-                Gizmos.DrawLine(p1, p1 + Vector3.Cross(p2 - p1, norm).normalized);
+                Gizmos.DrawLine(p1, p1 - Vector3.Cross(p2 - p1, norm).normalized);
             }
             Gizmos.color = Color.blue;
             Gizmos.DrawSphere(lastPos, .2f);
