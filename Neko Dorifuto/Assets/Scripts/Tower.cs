@@ -9,6 +9,8 @@ public class Tower : MonoBehaviour {
     public float projectileVelocity = 25;
     float cooldownTimer = 0;
 
+    public bool upgraded = false;
+
     CatBlock nearestTarget = null;
 
 	// Use this for initialization

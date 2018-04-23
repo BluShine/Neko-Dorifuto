@@ -22,8 +22,19 @@ public class RaceManager : MonoBehaviour {
     public TextMeshProUGUI winText;
     public TextMeshProUGUI loseText;
 
+    bool raceActive = true;
     bool win = false;
     bool lose = false;
+
+    public BezierCurve track;
+
+    Car car;
+    Vector3 carStart;
+    Quaternion carStartRot;
+
+    float endTimer = 0;
+
+    TowerManager towerManager;
 
     public void HitCheckpoint()
     {
@@ -44,14 +55,56 @@ public class RaceManager : MonoBehaviour {
         currentTime += checkpointTime;
     }
 
-	// Use this for initialization
-	void Start () {
-        checkpoints[0].Activate();
-        currentTime = startingTime;
-        currentLaps = laps;
+    public void endRace()
+    {
+        foreach (RaceCheckpoint c in checkpoints)
+        {
+            c.Deactivate();
+        }
         winText.enabled = false;
         loseText.enabled = false;
         timeTextPanic.enabled = false;
+        lapText.enabled = false;
+        timeText.enabled = false;
+        car.transform.position = carStart;
+        car.transform.rotation = carStartRot;
+        car.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        car.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        raceActive = false;
+    }
+
+    public void startRace()
+    {
+        car.transform.position = carStart;
+        car.transform.rotation = carStartRot;
+        car.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        car.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        foreach (RaceCheckpoint c in checkpoints)
+        {
+            c.Deactivate();
+        }
+        checkpoints[0].Activate();
+        currentTime = startingTime;
+        currentLaps = laps - 1;
+        winText.enabled = false;
+        loseText.enabled = false;
+        timeTextPanic.enabled = false;
+        lapText.enabled = true;
+        timeText.enabled = true;
+        raceActive = true;
+        win = false;
+        lose = false;
+        endTimer = 0;
+    }
+
+	// Use this for initialization
+	void Start () {
+        car = FindObjectOfType<Car>();
+        carStart = car.transform.position;
+        carStartRot = car.transform.rotation;
+        towerManager = FindObjectOfType<TowerManager>();
+        startRace();
+        currentLaps = 1;
     }
 	
 	// Update is called once per frame
@@ -61,29 +114,56 @@ public class RaceManager : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        currentTime -= Time.fixedDeltaTime;
-        currentTime = Mathf.Max(0, currentTime);
-        lapText.text = "Lap  " + (laps - currentLaps) + "/" + laps;
-        timeText.text = "Time\n" + Mathf.Ceil(currentTime);
-        timeTextPanic.text = "Time\n" + Mathf.Ceil(currentTime);
-        if (currentTime < 10 && Mathf.Floor(currentTime * 5) %2 == 0)
+        if (raceActive)
         {
-            timeTextPanic.enabled = true;
-        } else
-        {
-            timeTextPanic.enabled = false;
-        }
+            if (!win)
+            {
+                currentTime -= Time.fixedDeltaTime;
+            }
+            currentTime = Mathf.Max(0, currentTime);
+            lapText.text = "Lap  " + (laps - currentLaps) + "/" + laps;
+            if (win)
+            {
+                timeText.text = "RACE COMPLETE: $10\nBONUS: $" + Mathf.Ceil(currentTime);
+            }
+            else
+            {
+                timeText.text = "Time\n" + Mathf.Ceil(currentTime);
+                timeTextPanic.text = "Time\n" + Mathf.Ceil(currentTime);
+            }
+            if (!win && currentTime < 10 && Mathf.Floor(currentTime * 5) % 2 == 0)
+            {
+                timeTextPanic.enabled = true;
+            }
+            else
+            {
+                timeTextPanic.enabled = false;
+            }
 
-        if (currentTime == 0 && !win)
-            lose = true;
+            if (currentTime == 0 && !win)
+                lose = true;
 
-        if (win)
-        {
-            winText.enabled = true;
-        }
-        if(lose)
-        {
-            loseText.enabled = true;
+            if (win)
+            {
+                winText.enabled = true;
+                endTimer += Time.fixedDeltaTime;
+                if (endTimer > 5)
+                {
+                    //next wave
+                    endRace();
+                    towerManager.money += 10 + Mathf.CeilToInt(currentTime);
+                    towerManager.ActivateTowerPhase();
+                }
+            }
+            if (lose)
+            {
+                loseText.enabled = true;
+                endTimer += Time.fixedDeltaTime;
+                if (endTimer > 5)
+                {
+                    //restart
+                }
+            }
         }
     }
 

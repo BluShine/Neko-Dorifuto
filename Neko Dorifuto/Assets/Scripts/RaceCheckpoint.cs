@@ -26,12 +26,17 @@ public class RaceCheckpoint : MonoBehaviour {
         checkpointGraphics.SetActive(true);
     }
 
+    public void Deactivate()
+    {
+        activated = false;
+        checkpointGraphics.SetActive(false);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if(activated && other.gameObject.layer == 9)
         {
-            activated = false;
-            checkpointGraphics.SetActive(false);
+            Deactivate();
             manager.HitCheckpoint();
         }
     }

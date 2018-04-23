@@ -21,8 +21,9 @@ GameObject:
   - component: {fileID: 4286209782650200}
   - component: {fileID: 33512973218860004}
   - component: {fileID: 23505004500254220}
-  - component: {fileID: 65396090790953460}
-  m_Layer: 0
+  - component: {fileID: 135017190250130502}
+  - component: {fileID: 114525520257285874}
+  m_Layer: 2
   m_Name: Darkness
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +40,8 @@ GameObject:
   - component: {fileID: 4312216476234738}
   - component: {fileID: 33551546534217962}
   - component: {fileID: 23041946679679124}
-  m_Layer: 0
+  - component: {fileID: 65673291865763454}
+  m_Layer: 13
   m_Name: tower_castle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -157,15 +159,42 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1899890163530556}
   m_Mesh: {fileID: 4300000, guid: 1f649f420268c684c9165bc492ac0d50, type: 3}
---- !u!65 &65396090790953460
+--- !u!65 &65673291865763454
 BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1899890163530556}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.000016, y: 4.6000047, z: 2.000032}
+  m_Center: {x: 0, y: 2.2999985, z: 0.000007987022}
+--- !u!114 &114525520257285874
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1397869897773800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b3a518f64b6b294da126a619146e394, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectile: {fileID: 1010573850875148, guid: 9a304a8ee91a9a14da0c7222999ca86b, type: 2}
+  fireRate: 2
+  projectileVelocity: 15
+  upgraded: 1
+--- !u!135 &135017190250130502
+SphereCollider:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1397869897773800}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Radius: 10
   m_Center: {x: 0, y: 0, z: 0}
