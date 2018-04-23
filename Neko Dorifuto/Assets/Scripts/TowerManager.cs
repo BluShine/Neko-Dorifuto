@@ -34,7 +34,7 @@ public class TowerManager : MonoBehaviour {
 
     public Camera topdownCam;
 
-    static int WAVEHISCORE = 0;
+    public static int WAVEHISCORE = 0;
 
     bool phaseActive = false;
 
@@ -56,7 +56,8 @@ public class TowerManager : MonoBehaviour {
         if (!phaseActive)
             return;
 
-        if(money < 5)
+        moneyDisplay.text = "$" + money;
+        if(money < 8)
         {
             countdown.enabled = true;
             countdown.text = "READY\n" + Mathf.Ceil(countdownTimer);
@@ -86,13 +87,13 @@ public class TowerManager : MonoBehaviour {
                         selectionText.text = "X";
                     } else
                     {
-                        selectionText.text = "Upgrade $7";
-                        if(money >= 7)
+                        selectionText.text = "Upgrade $12";
+                        if(money >= 12)
                         {
                             if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Jump"))
                             {
                                 //upgrade tower
-                                money -= 7;
+                                money -= 12;
                                 GameObject upTower = GameObject.Instantiate(largetowerPrefab);
                                 upTower.transform.position = rayhit.collider.gameObject.transform.position;
                                 upTower.transform.rotation = rayhit.collider.gameObject.transform.rotation;
@@ -102,10 +103,10 @@ public class TowerManager : MonoBehaviour {
                     }
                 } else if(rayhit.collider.gameObject.layer == 12)
                 {
-                    selectionText.text = "Build tower $5";
+                    selectionText.text = "Build tower $8";
                     if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Jump"))
                     {
-                        money -= 5;
+                        money -= 8;
                         GameObject placedTower = GameObject.Instantiate(smalltowerPrefab);
                         placedTower.transform.position = rayhit.point;
                         placedTower.transform.rotation = Quaternion.Euler(0, Random.value * 360, 0);

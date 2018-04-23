@@ -43,7 +43,7 @@ public class BezierMeshGenerator : MonoBehaviour
         }
     }
 }
-
+#if UNITY_EDITOR
 [CustomEditor(typeof(BezierMeshGenerator))]
 public class BezierMeshGeneratorEditor : Editor
 {
@@ -62,3 +62,4 @@ public class BezierMeshGeneratorEditor : Editor
         }
     }
 }
+#endif
