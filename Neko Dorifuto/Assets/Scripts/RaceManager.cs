@@ -37,6 +37,8 @@ public class RaceManager : MonoBehaviour {
 
     TowerManager towerManager;
 
+    public RandomSound startEndSounds;
+
     public void HitCheckpoint()
     {
         if(currentCheckpoint == 0)
@@ -54,6 +56,7 @@ public class RaceManager : MonoBehaviour {
         }
         checkpoints[currentCheckpoint].Activate();
         currentTime += checkpointTime;
+        startEndSounds.PlaySound();
     }
 
     public void endRace()
@@ -71,7 +74,9 @@ public class RaceManager : MonoBehaviour {
         car.transform.rotation = carStartRot;
         car.GetComponent<Rigidbody>().velocity = Vector3.zero;
         car.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        car.engineSound.Stop();
         raceActive = false;
+        startEndSounds.PlaySound();
     }
 
     public void startRace()
@@ -80,6 +85,7 @@ public class RaceManager : MonoBehaviour {
         car.transform.rotation = carStartRot;
         car.GetComponent<Rigidbody>().velocity = Vector3.zero;
         car.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        car.engineSound.Play();
         foreach (RaceCheckpoint c in checkpoints)
         {
             c.Deactivate();
@@ -96,6 +102,8 @@ public class RaceManager : MonoBehaviour {
         win = false;
         lose = false;
         endTimer = 0;
+
+        startEndSounds.PlaySound();
     }
 
 	// Use this for initialization

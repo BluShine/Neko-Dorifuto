@@ -34,11 +34,15 @@ public class Car : MonoBehaviour {
 
     RaceManager manager;
 
+    [HideInInspector]
+    public AudioSource engineSound;
+
 	// Use this for initialization
-	void Start () {
+	void Awake () {
         body = GetComponent<Rigidbody>();
         hoverPID = new HoverPIDController(hoverPIDProperties);
         manager = FindObjectOfType<RaceManager>();
+        engineSound = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -58,6 +62,7 @@ public class Car : MonoBehaviour {
 
         bool onGround = false;
         Vector3 relativeVel = transform.InverseTransformDirection(body.velocity);
+        engineSound.pitch = 1 + Mathf.Abs(relativeVel.z * 6) / topSpeed;
         //suspension
         #region suspension forces
         //gravity

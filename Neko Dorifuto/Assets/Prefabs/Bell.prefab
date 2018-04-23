@@ -23,10 +23,10 @@ GameObject:
   - component: {fileID: 23590341221347288}
   - component: {fileID: 135073309269094292}
   - component: {fileID: 54559633840464842}
-  - component: {fileID: 82280344520945276}
-  - component: {fileID: 114616816150848174}
+  - component: {fileID: 82154880127451134}
+  - component: {fileID: 114960213740834210}
   m_Layer: 0
-  m_Name: Yarnball
+  m_Name: Bell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40,7 +40,7 @@ Transform:
   m_GameObject: {fileID: 1010573850875148}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -60,7 +60,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 13b80353c8468184d8e4a722a5c2b98d, type: 2}
+  - {fileID: 2100000, guid: 49b0b50fa5ba1ac4f8f222b038e83a37, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -102,7 +102,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!82 &82280344520945276
+--- !u!82 &82154880127451134
 AudioSource:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -111,7 +111,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: e43f3a2862916ec40b06e2783a9ccf8b, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 69b13c057ac8130488a0e41e38088248, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -197,7 +197,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &114616816150848174
+--- !u!114 &114960213740834210
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -208,7 +208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3230fce74fec163408be2ad3d92c2804, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sound: {fileID: 82280344520945276}
+  sound: {fileID: 82154880127451134}
   intervals: 8
 --- !u!135 &135073309269094292
 SphereCollider:

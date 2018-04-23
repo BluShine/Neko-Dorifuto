@@ -182,9 +182,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b3a518f64b6b294da126a619146e394, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 1010573850875148, guid: 9a304a8ee91a9a14da0c7222999ca86b, type: 2}
-  fireRate: 2
-  projectileVelocity: 15
+  projectile: {fileID: 1010573850875148, guid: 96d621c50b592d441b9b6c51eeb18a07, type: 2}
+  fireRate: 3.5
+  projectileVelocity: 12
   upgraded: 1
 --- !u!135 &135017190250130502
 SphereCollider:
@@ -196,5 +196,5 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 10
+  m_Radius: 14
   m_Center: {x: 0, y: 0, z: 0}
