@@ -38,6 +38,8 @@ public class TowerManager : MonoBehaviour {
 
     bool phaseActive = false;
 
+    float placeDelay = 0;
+
 	// Use this for initialization
 	void Start () {
         spawnBoxes = spawnAreas.GetComponentsInChildren<BoxCollider>();
@@ -56,6 +58,8 @@ public class TowerManager : MonoBehaviour {
         if (!phaseActive)
             return;
 
+        placeDelay -= Time.fixedDeltaTime;
+        placeDelay = Mathf.Max(0, placeDelay);
         moneyDisplay.text = "$" + money;
         if(money < 8)
         {
@@ -66,7 +70,7 @@ public class TowerManager : MonoBehaviour {
             {
                 DeactivateTowerPhase();
             }
-        } else
+        } else if (placeDelay == 0)
         {
             bool selecting = false;
             Ray ray = new Ray(transform.position, Vector3.down);
@@ -98,6 +102,7 @@ public class TowerManager : MonoBehaviour {
                                 upTower.transform.position = rayhit.collider.gameObject.transform.position;
                                 upTower.transform.rotation = rayhit.collider.gameObject.transform.rotation;
                                 Destroy(rayhit.collider.gameObject);
+                                placeDelay = .05f;
                             }
                         }
                     }
@@ -110,6 +115,7 @@ public class TowerManager : MonoBehaviour {
                         GameObject placedTower = GameObject.Instantiate(smalltowerPrefab);
                         placedTower.transform.position = rayhit.point;
                         placedTower.transform.rotation = Quaternion.Euler(0, Random.value * 360, 0);
+                        placeDelay = .05f;
                     }
                 }
                 else

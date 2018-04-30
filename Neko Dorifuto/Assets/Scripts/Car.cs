@@ -34,8 +34,13 @@ public class Car : MonoBehaviour {
 
     RaceManager manager;
 
-    [HideInInspector]
+    public GameObject tireMarkPrefab;
+    public Transform[] tireMarkSources;
+    Transform[] tireTrails;
+    bool drifting = false;
+
     public AudioSource engineSound;
+    public AudioSource driftSound;
 
 	// Use this for initialization
 	void Awake () {
@@ -43,6 +48,7 @@ public class Car : MonoBehaviour {
         hoverPID = new HoverPIDController(hoverPIDProperties);
         manager = FindObjectOfType<RaceManager>();
         engineSound = GetComponent<AudioSource>();
+        tireTrails = new Transform[tireMarkSources.Length];
 	}
 	
 	// Update is called once per frame
@@ -189,6 +195,38 @@ public class Car : MonoBehaviour {
             {
                 body.AddRelativeForce(Mathf.Sign(-horizontalVel) * Vector3.right * tractionForce, ForceMode.Acceleration);
             }
+            if(Mathf.Abs(horizontalVel) > Time.deltaTime * tractionForce * 2)
+            {
+                if(!drifting)
+                {
+                    for(int i = 0; i < tireMarkSources.Length; i++)
+                    {
+                        GameObject tireMark = GameObject.Instantiate(tireMarkPrefab);
+                        tireTrails[i] = tireMark.transform;
+                    }
+                    driftSound.Play();
+                }
+                driftSound.pitch = 1f + .001f * (-1 + Mathf.Abs(horizontalVel) / (Time.deltaTime * tractionForce * 2));
+                drifting = true;
+                for (int i = 0; i < tireMarkSources.Length; i++)
+                {
+                    Ray tireRay = new Ray(tireMarkSources[i].transform.position, -transform.up);
+                    RaycastHit tireHit = new RaycastHit();
+                    if(Physics.Raycast(tireRay, out tireHit, .5f))
+                    {
+                        tireTrails[i].position = tireHit.point + transform.up * .03f;
+                    }
+                    else
+                    {
+                        drifting = false;
+                        driftSound.Stop();
+                    }
+                }
+            } else
+            {
+                drifting = false;
+                driftSound.Stop();
+            }
             //forwards friction
             float forwardVelocity = relativeVel.z;
             float skidAmount = Mathf.Min(Mathf.Abs(skiddingNormal.x), Mathf.Abs(skiddingNormal.y)) / .707107f; //how close we are to a 45-degree skid
@@ -221,6 +259,7 @@ public class Car : MonoBehaviour {
 
     public void Respawn()
     {
+        drifting = false;
         body.velocity = Vector3.zero;
         body.angularVelocity = Vector3.zero;
         Transform lastCheck = manager.GetLastCheckpoint();

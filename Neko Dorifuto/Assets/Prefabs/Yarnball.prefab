@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 54559633840464842}
   - component: {fileID: 82280344520945276}
   - component: {fileID: 114616816150848174}
-  m_Layer: 11
+  m_Layer: 14
   m_Name: Yarnball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
