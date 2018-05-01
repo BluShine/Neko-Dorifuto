@@ -12,6 +12,8 @@ public class CatBlock : MonoBehaviour {
     float targetDelay = .2f;
     Rigidbody body;
     bool dropped = false;
+    [HideInInspector]
+    public float killTimer = 2;
 
 	// Use this for initialization
 	void Start () {

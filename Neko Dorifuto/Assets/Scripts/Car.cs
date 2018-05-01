@@ -214,7 +214,7 @@ public class Car : MonoBehaviour {
                     RaycastHit tireHit = new RaycastHit();
                     if(Physics.Raycast(tireRay, out tireHit, .5f))
                     {
-                        tireTrails[i].position = tireHit.point + transform.up * .03f;
+                        tireTrails[i].position = tireHit.point + transform.up * .1f;
                     }
                     else
                     {

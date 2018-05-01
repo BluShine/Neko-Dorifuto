@@ -23,6 +23,19 @@ public class Killplane : MonoBehaviour {
         }
     }
 
+    private void OnCollisionStay(Collision collision)
+    {
+        CatBlock cat = collision.gameObject.GetComponent<CatBlock>();
+        if (cat != null)
+        {
+            cat.killTimer -= Time.fixedDeltaTime;
+            if(cat.killTimer < 0)
+            {
+                Destroy(cat.gameObject);
+            }
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         Car car = other.gameObject.GetComponent<Car>();
