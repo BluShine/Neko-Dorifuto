@@ -29,6 +29,12 @@ public class CatBlock : MonoBehaviour {
 		
 	}
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        dropped = true;
+        body.useGravity = true;
+    }
+
     private void FixedUpdate()
     {
         if(hoistTimer > 0)

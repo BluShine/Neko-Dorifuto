@@ -158,6 +158,7 @@ public class TowerManager : MonoBehaviour {
             if (cube != null)
                 cube.renderer.enabled = true;
         }
+        titleText.text = "Wave " + wave + "\nDefend the race track.";
     }
 
     public void DeactivateTowerPhase()
